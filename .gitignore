@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+artifacts/
+.env
+.env.*
+*.pyc
+.genlayer/
+*.pem
+*.key
+secrets/
