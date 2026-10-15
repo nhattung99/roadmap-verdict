@@ -106,3 +106,45 @@ python -m venv .venv
 .venv\Scripts\pip install -r requirements-dev.txt
 pytest tests/test_roadmap_verdict.py -v
 ```
+
+## Deployment
+
+- **CONTRACT_ADDRESS:** `0x35848B50F8A0F3d4aEeCB0cD7FBa46068Ed66133`
+- **NETWORK:** studionet
+- **Explorer:** https://explorer-studio.genlayer.com/address/0x35848B50F8A0F3d4aEeCB0cD7FBa46068Ed66133
+
+A read-only `get_count()` call against this address returned `0`. No milestone report is stored on studionet yet, so the worked example below is the expected result from the local test `test_delivered_verdict`, not a receipt from studionet.
+
+### Worked example (expected output, not a live studionet verdict)
+
+Input to `submit_milestone`:
+
+```text
+project_name:             SpaceDAO Protocol
+milestone_description:    Launch mainnet with staking, bridging, and governance module
+claimed_completion_date:  Q1 2026
+evidence_urls:
+  https://github.com/spacedao/releases/v1.0.0
+  https://spacedao.io/blog/mainnet-launch
+  https://app.spacedao.io
+```
+
+The release page, the launch post, and the live app each describe staking, bridging, and governance as available in March 2026, inside Q1. Expected `get_verdict` after `verify_milestone`:
+
+```json
+{
+  "report_id": "1",
+  "project_name": "SpaceDAO Protocol",
+  "milestone_description": "Launch mainnet with staking, bridging, and governance module",
+  "claimed_completion_date": "Q1 2026",
+  "verdict": "DELIVERED",
+  "confidence": 94,
+  "reasoning": "All three features confirmed by GitHub release and blog post dated March 2026, within Q1 deadline.",
+  "delivered_items": "[\"mainnet launch\", \"staking module\", \"bridging\", \"governance module\"]",
+  "gaps": "[]",
+  "gap_count": 0,
+  "sources_readable": 3
+}
+```
+
+Status on `get_report` is `VERIFIED`. This output is what the local test asserts when those three pages are readable and the validators agree the milestone was delivered. It is not a transaction result from studionet.
